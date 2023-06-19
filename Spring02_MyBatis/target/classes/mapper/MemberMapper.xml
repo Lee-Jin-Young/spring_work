@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--MemberDaoImpl.java에서 session.insert("`namespace`.`id`", `parameter`);-->
+<mapper namespace="member">
+	<!-- parameterType에는 전체 경로 표시 -->
+	<insert id="insert" parameterType="com.young.spring02.member.dto.MemberDto">
+		INSERT INTO member
+		(num, name, addr)
+		VALUES(member_seq.NEXTVAL, #{name}, #{addr})
+	</insert>
+	
+	<delete id="">
+		DELETE 
+	</delete>
+</mapper>
