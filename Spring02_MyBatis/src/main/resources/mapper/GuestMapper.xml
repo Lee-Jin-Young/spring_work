@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--MemberDaoImpl.java에서 session.insert("`namespace`.`id`", `parameter`);-->
+
+<mapper namespace="guest">
+	<!-- insert(GuestDto dto) / session.insert("guest.insert", dto) -->
+	<!-- parameterType에는 전체 경로 표시 -->
+	<insert id="insert" parameterType="com.young.spring02.guest.dto.GuestDto">
+		INSERT INTO guest
+		(num, name, addr)
+		VALUES(member_seq.NEXTVAL, #{name}, #{addr})
+	</insert>
+	
+	<update id="update" parameterType="com.young.spring02.guest.dto.GuestDto">
+		UPDATE guest
+		SET name=#{name}, addr=#{addr}
+		WHERE num=#{num}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM guest
+		WHERE num = #{num}
+	</delete>
+	
+	<select id="getData" parameterType="int" resultType="com.young.spring02.guest.dto.GuestDto">
+		SELECT num, name, addr
+		FROM guest
+		WHERE num=#{num}
+	</select>
+	
+	<!-- getList() / session.selectList("guest.getList") -->
+	<!-- getList는 매개변수가 없기때문에 parameterType이 없음 -->
+	<select id="getList" resultType="com.young.spring02.guest.dto.GuestDto">
+		SELECT num, name, addr
+		FROM guest
+		ORDER BY num ASC
+	</select>
+</mapper>

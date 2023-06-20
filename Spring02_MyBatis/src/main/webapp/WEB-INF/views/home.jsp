@@ -11,7 +11,15 @@
    <div class="container">
       <h1>인덱스 페이지 입니다</h1>
       <ul>
-         <li><a href="/hello/fortune">오늘의 운세</a></li>
+         <li><a href="member/list">회원목록</a></li>
+         <li><a href="guest/list">방명록</a></li>
+      </ul>
+      <img src="${pageContext.request.contextPath}/resources/images/0.png"/>
+      <h2>공지사항</h2>
+      <ul>
+      	<c:forEach var="tmp" items="${requestScope.noticeList}">
+      		<li>${tmp}</li>
+      	</c:forEach>
       </ul>
    </div>
 </body>
