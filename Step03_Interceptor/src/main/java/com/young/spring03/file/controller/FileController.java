@@ -1,13 +1,19 @@
 package com.young.spring03.file.controller;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.young.spring03.file.dto.FileDto;
 
 /*
  *   [ spring mvc 파일 업로드 처리 ]
@@ -52,6 +58,62 @@ public class FileController {
 		}
 
 		return "file/upload";
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/file/upload2")
+	public String upload(FileDto dto, HttpServletRequest request) {
+		MultipartFile myFile = dto.getMyFile();
+		String orgFileName = myFile.getOriginalFilename();
+		long fileSize = myFile.getSize();
+
+		String realPath = request.getServletContext().getRealPath("/resources/upload");
+		String filePath = realPath + File.separator; // 저장할 파일의 상세 경로
+		
+		File upload = new File(filePath);
+		
+		if (!upload.exists()) {
+			upload.mkdir();
+		}
+		
+		String saveFileName = System.currentTimeMillis() + orgFileName;
+		
+		try {
+			myFile.transferTo(new File(filePath + saveFileName));
+			System.out.println(filePath + saveFileName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "file/upload";
+	}
+	
+	@ResponseBody
+	@RequestMapping(method = RequestMethod.POST, value = "/image/upload")
+	public Map<String, Object> upload(MultipartFile image, HttpServletRequest request) {
+		String orgFileName = image.getOriginalFilename();
+		
+		String realPath = request.getServletContext().getRealPath("/resources/upload");
+		String filePath = realPath + File.separator;
+		
+		File upload=new File(filePath);
+		if(!upload.exists()) {
+			upload.mkdir();
+		}
+
+		String saveFileName = System.currentTimeMillis() + orgFileName;
+		
+		try {
+			image.transferTo(new File(filePath + saveFileName));
+			System.out.println(filePath + saveFileName);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+        map.put("imageUrl", "/resources/upload/" + saveFileName);
+		
+		return map;
 	}
 
 	@RequestMapping("/file/insertform")

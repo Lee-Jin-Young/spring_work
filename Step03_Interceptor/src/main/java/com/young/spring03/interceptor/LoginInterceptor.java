@@ -11,12 +11,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class LoginInterceptor implements HandlerInterceptor { 
    @Override
-   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-         throws Exception {
+   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
       HttpSession session=request.getSession();
       String id=(String)session.getAttribute("id");
+      
       if(id == null) {
-
          String url=request.getRequestURI();
          String query=request.getQueryString();
          String encodedUrl=null;
@@ -28,6 +27,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             encodedUrl=URLEncoder.encode(url+"?"+query);
          }
          
+         //로그인 안되어 있을 때
          String cPath=request.getContextPath();
          response.sendRedirect(cPath+"/users/loginform?url="+encodedUrl);
          return false;

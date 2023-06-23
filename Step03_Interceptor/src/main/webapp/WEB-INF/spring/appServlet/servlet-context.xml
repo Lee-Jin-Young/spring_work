@@ -35,7 +35,8 @@
 		
 		<!-- /users/하위의 모든 요청에 대해 loginInterceptor가 끼어들도록 설정한다. -->
 		<interceptor>
-			<mapping path="/users/loginform"/>
+			<mapping path="/users/*"/>
+			<mapping path="/file/*"/>
 			<exclude-mapping path="/users/loginform"/>
 			<exclude-mapping path="/users/login"/>
 			<beans:ref bean="loginInterceptor"/>
@@ -46,6 +47,8 @@
 		Multipart 폼 전송 처리를 위한 bean 설정
 		최대 업로드 사이즈 제한하기
 		name="maxUploadSize" value="byte단위"
+		
+		id를 multipartResolver로 명시해야 동작
 	 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="1024000000"></beans:property>
