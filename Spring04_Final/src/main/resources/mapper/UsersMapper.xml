@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--UsersDaoImpl.java에서 session.method("`namespace`.`id`", `parameter`); -->
+
+<mapper namespace="users">
+
+	<!-- insert(UsersDto dto) / session.insert("users.insert", dto) -->
+	<!-- parameterType에는 전체 경로 표시 -->
+	<insert id="insert" parameterType="usersDto">
+		INSERT INTO users
+		(id, pwd, email, regdate)
+		VALUES(#{id}, #{pwd}, #{email}, SYSDATE)
+	</insert>
+	
+	<!-- resultType : 결과값을 어떤 타입으로 리턴할지 결정 -->
+	<select id="getData" parameterType="String" resultType="usersDto">
+		SELECT email, id, pwd, profile, regdate
+		FROM users
+		WHERE id = #{id}
+	</select>
+
+	<update id="updatePwd" parameterType="usersDto">
+		UPDATE users
+		SET pwd = #{newPwd}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="String">
+		DELETE FROM users
+		WHERE id = #{id}
+		<if test="pwd != null">
+			AND pwd = #{pwd}
+		</if>
+	</delete>
+</mapper>
