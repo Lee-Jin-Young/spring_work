@@ -5,8 +5,10 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.young.spring04.users.dto.UsersDto" alias="usersDto"/>
+		<typeAlias type="com.young.spring04.users.dto.FileDto" alias="fileDto"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mapper/UsersMapper.xml"/>
+		<mapper resource="mapper/FileMapper.xml"/>
 	</mappers>
 </configuration>
