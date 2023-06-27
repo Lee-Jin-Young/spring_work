@@ -1,6 +1,8 @@
 // UsersServiceImpl.java
 package com.young.spring04.users.service;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,30 +63,82 @@ public class UsersServiceImpl implements UsersService {
     // 회원 정보 열람
     @Override
     public void getInfo(HttpSession session, ModelAndView mView) {
-
+    	String id = (String)session.getAttribute("id");
+    	UsersDto dto = dao.getData(id);
+    	mView.addObject("dto", dto);
     }
 
     // 비밀번호 변경
     @Override
     public void updateUserPwd(HttpSession session, UsersDto dto, ModelAndView mView) {
-
+    	String id = (String)session.getAttribute("id");
+    	UsersDto resultdto = dao.getData(id);
+    	
+    	//입력된 기존 비밀번호와 실제 기존 비밀번호를 비교, 같을 때만 변경
+    	boolean isValid = BCrypt.checkpw(dto.getPwd(), resultdto.getPwd());
+    	if (isValid) {
+    		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    		
+    		String encodedNewPwd = encoder.encode(dto.getNewPwd());
+    		dto.setNewPwd(encodedNewPwd);
+    		dto.setId(id);
+    		
+    		dao.updatePwd(dto);
+    		
+    		session.removeAttribute(id); //로그아웃
+        }
+    	
+    	mView.addObject("isSuccess", isValid);
+    	mView.addObject(id);
     }
 
     // 프로필 이미지 등록
     @Override
     public Map<String, Object> saveProfileImage(HttpServletRequest request, MultipartFile mFile) {
-        return null;
+        String orgFileName=mFile.getOriginalFilename();
+        String saveFileName=System.currentTimeMillis()+orgFileName;
+        
+        String realPath=request.getServletContext().getRealPath("/resources/upload");
+
+        // upload 폴더가 없을 경우
+        File upload=new File(realPath);
+        if(!upload.exists()) {
+           upload.mkdir();
+        }
+        
+        try {
+           String savePath=realPath+File.separator+saveFileName;
+           mFile.transferTo(new File(savePath));
+        }catch(Exception e) {
+           e.printStackTrace();
+        }
+        
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put("imagePath", "/resources/upload/"+saveFileName);
+        
+        return map;
     }
 
     // 회원정보 수정
     @Override
     public void updateUser(UsersDto dto, HttpSession session) {
+    	String id = (String)session.getAttribute("id");
+    	// update_form에서 id를 입력할 수 없기 때문에 dto의 id는 null인 상태
+    	// session의 아이디값을 넣어줌으로 null point exception 방지
+    	dto.setId(id);
 
+    	if(dto.getProfile().equals("empty")) {
+    		dto.setProfile(null);
+    	}
+
+    	dao.update(dto);
     }
 
     // 회원 탈퇴
     @Override
     public void deleteUser(HttpSession session, ModelAndView mView) {
-
+    	String id = (String)session.getAttribute("id");
+    	
+    	dao.delete(id);
     }
 }

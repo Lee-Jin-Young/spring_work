@@ -34,12 +34,12 @@ public class UsersDaoImpl implements UsersDao {
 	}
 	
 	@Override public void update(UsersDto dto) { 
-		session.update("Users.update", dto); 
+		session.update("users.update", dto); 
 	}
 
 	@Override
 	public void delete(String id) {
-		session.delete(id);
+		session.delete("users.delete", id);
 	}
 
 }
