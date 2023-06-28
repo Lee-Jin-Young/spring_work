@@ -61,13 +61,24 @@
 	<!-- 인터셉터 맵핑하기 -->
 	<interceptors>
 		<interceptor>
-			<mapping path="/users/*" />
+			<mapping path="/users/*"/>
+			<mapping path="/file/*"/>
 			<exclude-mapping path="/users/signup_form" />
 			<exclude-mapping path="/users/signup" />
-			<exclude-mapping path="/users/login_form" />
+			<exclude-mapping path="/users/login_form" />                                                        
 			<exclude-mapping path="/users/login" />
+			<exclude-mapping path="/file/list"/>
 			<beans:ref bean="loginInterceptor" />
 		</interceptor>
-	</interceptors>
+	</interceptors> 
+	
+	<!-- 
+		bean의 이름을 이용해서 view 로 이동할수 있도록 설정 
+		setOrder(0)는 0순위로 찾아 가겠다는 의미 
+		없으면 views 폴더 안에서 jsp 페이지를 찾게 된다. 	
+	-->
+	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="0"/>
+	</beans:bean>
 
 </beans:beans>

@@ -37,11 +37,11 @@
 		SELECT NVL(MAX(ROWNUM), 0)
 		FROM board_file
 		<choose>
-			<when test="title != null and orgFilename != null">
+			<when test="title != null and orgFileName != null">
 				WHERE title LIKE '%'||#{title}||'%' OR orgFileName LIKE '%'||#{orgFileName}||'%'
 			</when>
 			<when test="title != null">
-				WHERE title LIKE '%'||#{title}||'%'
+				WHERE title LIKE '%'||#{title}||'%' 
 			</when>
 			<when test="writer != null">
 				WHERE writer LIKE '%'||#{writer}||'%'

@@ -7,14 +7,16 @@ public class FileDto {
 	private String writer;
 	private String title;
 	private String orgFileName;
-	private String savaFileName;
+	private String saveFileName;
 	private long fileSize;
 	private String regdate;
 	private int startRowNum;
 	private int endRowNum;
 	private MultipartFile myFile;
 	
-	public FileDto() {}
+	public FileDto() {
+		
+	}
 
 	public FileDto(int num, String writer, String title, String orgFileName, String savaFileName, long fileSize, String regdate, int startRowNum, int endRowNum, MultipartFile myFile) {
 		super();
@@ -22,7 +24,7 @@ public class FileDto {
 		this.writer = writer;
 		this.title = title;
 		this.orgFileName = orgFileName;
-		this.savaFileName = savaFileName;
+		this.saveFileName = savaFileName;
 		this.fileSize = fileSize;
 		this.regdate = regdate;
 		this.startRowNum = startRowNum;
@@ -62,12 +64,12 @@ public class FileDto {
 		this.orgFileName = orgFileName;
 	}
 
-	public String getSavaFileName() {
-		return savaFileName;
+	public String getSaveFileName() {
+		return saveFileName;
 	}
 
-	public void setSavaFileName(String savaFileName) {
-		this.savaFileName = savaFileName;
+	public void setSaveFileName(String savaFileName) {
+		this.saveFileName = savaFileName;
 	}
 
 	public long getFileSize() {
