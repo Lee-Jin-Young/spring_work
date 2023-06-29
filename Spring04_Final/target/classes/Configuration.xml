@@ -6,9 +6,11 @@
 	<typeAliases>
 		<typeAlias type="com.young.spring04.users.dto.UsersDto" alias="usersDto"/>
 		<typeAlias type="com.young.spring04.file.dto.FileDto" alias="fileDto"/>
+		<typeAlias type="com.young.spring04.cafe.dto.CafeDto" alias="cafeDto"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mapper/UsersMapper.xml"/>
 		<mapper resource="mapper/FileMapper.xml"/>
+		<mapper resource="mapper/CafeMapper.xml"/>
 	</mappers>
 </configuration>

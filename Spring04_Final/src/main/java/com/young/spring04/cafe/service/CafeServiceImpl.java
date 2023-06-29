@@ -1,6 +1,5 @@
-package com.young.spring04.file.service;
+package com.young.spring04.cafe.service;
 
-import java.io.File;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -8,17 +7,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
+import com.young.spring04.cafe.dao.CafeDao;
+import com.young.spring04.cafe.dto.CafeDto;
 import com.young.spring04.exception.NotDeleteException;
-import com.young.spring04.file.dao.FileDao;
-import com.young.spring04.file.dto.FileDto;
 
 @Service
-public class FileServiceImpl implements FileService {
+public class CafeServiceImpl implements CafeService {
 	@Autowired
-	private FileDao dao;
+	private CafeDao cafedao;
 
 	@Override
 	public void getList(HttpServletRequest request) {
@@ -47,15 +44,15 @@ public class FileServiceImpl implements FileService {
 
 		String encodedK = URLEncoder.encode(keyword);
 
-		FileDto dto = new FileDto();
+		CafeDto dto = new CafeDto();
 		dto.setStartRowNum(startRowNum);
 		dto.setEndRowNum(endRowNum);
 
 		if (!keyword.equals("")) {
-			// 제목 + 파일명 검색인 경우
-			if (condition.equals("title_filename")) {
+			// 제목 + 내용 검색인 경우
+			if(condition.equals("title_content")) {
 				dto.setTitle(keyword);
-				dto.setOrgFileName(keyword);
+				dto.setContent(keyword);
 				// 제목 검색인 경우
 			} else if (condition.equals("title")) {
 				dto.setTitle(keyword);
@@ -65,9 +62,9 @@ public class FileServiceImpl implements FileService {
 			}
 		}
 
-		List<FileDto> list = dao.getList(dto);
+		List<CafeDto> list = cafedao.getList(dto);
 
-		int totalRow = dao.getCount(dto);
+		int totalRow = cafedao.getCount(dto);
 		int startPageNum = 1 + ((pageNum - 1) / PAGE_DISPLAY_COUNT) * PAGE_DISPLAY_COUNT;
 		int endPageNum = startPageNum + PAGE_DISPLAY_COUNT - 1;
 
@@ -89,59 +86,67 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public void saveFile(FileDto dto, ModelAndView mView, HttpServletRequest request) {
-		MultipartFile myFile = dto.getMyFile();
-		String orgFileName = myFile.getOriginalFilename();
-		long fileSize = myFile.getSize();
-
-		String realPath = request.getServletContext().getRealPath("/resources/upload");
-		String filePath = realPath + File.separator;
-		File upload = new File(filePath);
-
-		if (!upload.exists()) {
-			upload.mkdir();
+	public void getDetail(HttpServletRequest request) {
+		int num = Integer.parseInt(request.getParameter("num"));
+		
+		String keyword=request.getParameter("keyword");
+		String condition=request.getParameter("condition");
+		if(keyword==null){
+			keyword="";
+			condition=""; 
 		}
-
-		String saveFileName = System.currentTimeMillis() + orgFileName;
-
-		try {
-			myFile.transferTo(new File(filePath + saveFileName));
-			System.out.println(filePath + saveFileName);
-		} catch (Exception e) {
-			e.printStackTrace();
+		CafeDto dto=new CafeDto();
+		dto.setNum(num);
+		if(!keyword.equals("")){
+			if(condition.equals("title_content")){
+				dto.setTitle(keyword);
+				dto.setContent(keyword);			
+			}else if(condition.equals("title")){
+				dto.setTitle(keyword);	
+			}else if(condition.equals("writer")){
+				dto.setWriter(keyword);	
+			}
 		}
-
-		String id = (String) request.getSession().getAttribute("id");
-		dto.setWriter(id);
-		dto.setOrgFileName(orgFileName);
-		dto.setSaveFileName(saveFileName);
-		dto.setFileSize(fileSize);
-		dao.insert(dto);
-		mView.addObject("dto", dto);
+		
+		String encodedK=URLEncoder.encode(keyword);
+		
+		CafeDto resultDto = cafedao.getData(dto);
+		
+		cafedao.addViewCount(num);
+		
+		request.setAttribute("dto", resultDto);
+		request.setAttribute("condition", condition);
+		request.setAttribute("keyword", keyword);
+		request.setAttribute("encodedK", encodedK);
 	}
 
 	@Override
-	public void getFileData(int num, ModelAndView mView) {
-		FileDto dto = dao.getData(num);
-		mView.addObject("dto", dto);
+	public void saveContent(CafeDto dto) {
+		cafedao.insert(dto);
 	}
 
 	@Override
-	public void deleteFile(int num, HttpServletRequest request) {
-		FileDto dto = dao.getData(num);
+	public void updateContent(CafeDto dto) {
+		cafedao.update(dto);
+	}
 
-		String id = (String) request.getSession().getAttribute("id");
-		if (!dto.getWriter().equals(id)) {
-			throw new NotDeleteException("타인의 파일은 지울 수 없습니다.");
+	@Override
+	public void deleteContent(int num, HttpServletRequest request) {
+		String id = (String)request.getSession().getAttribute("id");
+		CafeDto dto = cafedao.getData(num);
+		if(!id.equals(dto.getWriter())) {
+			throw new NotDeleteException("다른 사람의 게시물을 삭제할 수 없습니다.");
 		}
+		cafedao.delete(num);
+	}
 
-		// 파일 시스템에서 삭제
-		String saveFileName = dto.getSaveFileName();
-		String path = request.getServletContext().getRealPath("/resources/upload") + File.separator + saveFileName;
-		new File(path).delete();
+	@Override
+	public void getData(HttpServletRequest request) {
+		int num = Integer.parseInt(request.getParameter("num"));
 
-		// DB에서 정보 삭제
-		dao.delete(num);
+		CafeDto dto = cafedao.getData(num);
+		
+		request.setAttribute("dto", dto);
 	}
 
 }
