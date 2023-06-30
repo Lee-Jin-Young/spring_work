@@ -63,6 +63,7 @@
 				</c:if>				
 			</ul>
 		</nav>
+		
 				<!-- 검색 폼 -->
 		<form action="list" method="get">
 			<label for="condition">검색조건</label>	

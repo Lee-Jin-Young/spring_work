@@ -59,25 +59,29 @@
 	<beans:bean id="loginInterceptor"
 		class="com.young.spring04.interceptor.LoginInterceptor" />
 	<!-- 인터셉터 맵핑하기 -->
-	<interceptors>
+	<interceptors> 
 		<interceptor>
 			<mapping path="/users/*"/>
+			<exclude-mapping path="/users/signup_form"/>
+			<exclude-mapping path="/users/signup"/>
+			<exclude-mapping path="/users/login_form"/>
+			<exclude-mapping path="/users/login"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
+		<interceptor>
 			<mapping path="/file/*"/>
-			<mapping path="/cafe/*"/>
-			
-			<exclude-mapping path="/users/signup_form" />
-			<exclude-mapping path="/users/signup" />
-			<exclude-mapping path="/users/login_form" />                                                        
-			<exclude-mapping path="/users/login" />
-			
 			<exclude-mapping path="/file/list"/>
-			
+			<exclude-mapping path="/file/download"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/cafe/*"/>
 			<exclude-mapping path="/cafe/list"/>
 			<exclude-mapping path="/cafe/detail"/>
 			<exclude-mapping path="/cafe/ajax_comment_list"/>
-			<beans:ref bean="loginInterceptor" />
+			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
-	</interceptors> 
+	</interceptors>
 	
 	<!-- 
 		bean의 이름을 이용해서 view 로 이동할수 있도록 설정 
