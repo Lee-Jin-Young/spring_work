@@ -328,7 +328,7 @@
 					document.querySelector(".loader").style.display="none";
 				}); //ajax
 			} //if
-		});
+		}); 
 		
 		//인자로 전달되는 선택자를 이용해서 이벤트 리스너를 등록하는 함수 
 		function addUpdateListener(sel) {
