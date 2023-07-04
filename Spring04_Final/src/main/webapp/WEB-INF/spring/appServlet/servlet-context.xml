@@ -81,6 +81,11 @@
 			<exclude-mapping path="/cafe/ajax_comment_list"/>
 			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
+		<interceptor>
+			<mapping path="/gallery/*"/>
+			<exclude-mapping path="/gallery/list"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
 	</interceptors>
 	
 	<!-- 

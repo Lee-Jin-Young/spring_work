@@ -57,7 +57,7 @@
 		</form>
 					
 	</div>
-	<!-- gura_util.js 로딩 -->
+	<!-- my_util.js 로딩 -->
 	<script src="${pageContext.request.contextPath }/resources/js/my_util.js"></script>
 	<script>
 
