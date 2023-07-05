@@ -7,11 +7,11 @@
 <title>/views/test/fortune.jsp</title>
 </head>
 <body>
-	<div class="container">
-		<p>
-			오늘의 운세 : <strong>${fortuneToday}</strong>
-			<a href="/step01/">인덱스로 가기</a>
-		</p>
-	</div>
+    <div class="container">
+        <p>
+            오늘의 운세 : <strong>${fortuneToday}</strong>
+            <a href="/step01/">인덱스로 가기</a>
+        </p>
+    </div>
 </body>
 </html>

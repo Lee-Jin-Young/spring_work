@@ -7,8 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div class="container">
-		<h1></h1>
-	</div>
+    <div class="container">
+        <h1></h1>
+    </div>
 </body>
 </html>

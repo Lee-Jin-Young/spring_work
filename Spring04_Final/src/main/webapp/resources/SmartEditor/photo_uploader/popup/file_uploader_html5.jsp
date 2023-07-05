@@ -58,7 +58,7 @@
         os.flush();
         os.close();
         ///////////////// 서버에 파일쓰기 /////////////////
- 		String contextPath=request.getContextPath();
+         String contextPath=request.getContextPath();
         // 정보 출력
         sFileInfo += "&bNewLine=true";    
         sFileInfo += "&sFileName=" + filename;    

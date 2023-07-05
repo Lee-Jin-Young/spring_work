@@ -12,42 +12,42 @@ import com.young.spring04.file.service.FileService;
 
 @Controller
 public class FileController {
-	@Autowired
-	private FileService service;
-	
-	@RequestMapping("/file/list")
-	public String list(HttpServletRequest request) {
+    @Autowired
+    private FileService service;
+    
+    @RequestMapping("/file/list")
+    public String list(HttpServletRequest request) {
 
-		service.getList(request);
+        service.getList(request);
 
-		return "file/list";
-	}
+        return "file/list";
+    }
 
-	@RequestMapping("/file/upload_form")
-	public String uploadForm() {
+    @RequestMapping("/file/upload_form")
+    public String uploadForm() {
 
-		return "file/upload_form";
-	}
+        return "file/upload_form";
+    }
 
-	//파일 업로드 요청처리 
-	@RequestMapping("/file/upload")
-	public ModelAndView upload(FileDto dto, ModelAndView mView, HttpServletRequest request) {
-		service.saveFile(dto, mView, request);
-		mView.setViewName("file/upload");
-		return mView;
-	}
+    //파일 업로드 요청처리 
+    @RequestMapping("/file/upload")
+    public ModelAndView upload(FileDto dto, ModelAndView mView, HttpServletRequest request) {
+        service.saveFile(dto, mView, request);
+        mView.setViewName("file/upload");
+        return mView;
+    }
 
-	@RequestMapping("/file/download")
-	public ModelAndView download(int num, ModelAndView mView) {
-		service.getFileData(num, mView);
-		mView.setViewName("fileDownView");
-		return mView;
-	}
+    @RequestMapping("/file/download")
+    public ModelAndView download(int num, ModelAndView mView) {
+        service.getFileData(num, mView);
+        mView.setViewName("fileDownView");
+        return mView;
+    }
 
-	@RequestMapping("/file/delete")
-	public ModelAndView delete(int num, ModelAndView mView, HttpServletRequest request) {
-		service.deleteFile(num, request);
-		mView.setViewName("redirect:/file/list");
-		return mView;
-	}
+    @RequestMapping("/file/delete")
+    public ModelAndView delete(int num, ModelAndView mView, HttpServletRequest request) {
+        service.deleteFile(num, request);
+        mView.setViewName("redirect:/file/list");
+        return mView;
+    }
 }

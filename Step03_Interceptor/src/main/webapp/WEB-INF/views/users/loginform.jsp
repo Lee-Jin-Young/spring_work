@@ -8,12 +8,12 @@
 <title>/views/users/loginform.jsp</title>
 </head>
 <body>
-	<div class="container">
-		<h3>로그인 폼</h3>
-		<form action="${pageContext.request.contextPath}/users/login" method="post">
-			<input type="text" name="id" placeholder="아이디 입력..."/>
-			<button type="submit">로그인</button>
-		</form>
-	</div>
+    <div class="container">
+        <h3>로그인 폼</h3>
+        <form action="${pageContext.request.contextPath}/users/login" method="post">
+            <input type="text" name="id" placeholder="아이디 입력..."/>
+            <button type="submit">로그인</button>
+        </form>
+    </div>
 </body>
 </html>

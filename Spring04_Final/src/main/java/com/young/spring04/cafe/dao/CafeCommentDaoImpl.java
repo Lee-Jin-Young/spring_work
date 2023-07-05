@@ -10,42 +10,42 @@ import com.young.spring04.cafe.dto.CafeCommentDto;
 
 @Repository
 public class CafeCommentDaoImpl implements CafeCommentDao {
-	@Autowired
-	private SqlSession session;
+    @Autowired
+    private SqlSession session;
 
-	@Override
-	public List<CafeCommentDto> getList(CafeCommentDto dto) {
-		return session.selectList("cafeComment.getList", dto);
-	}
+    @Override
+    public List<CafeCommentDto> getList(CafeCommentDto dto) {
+        return session.selectList("cafeComment.getList", dto);
+    }
 
-	@Override
-	public void delete(int num) {
-		session.update("cafeComment.delete", num);
-	}
+    @Override
+    public void delete(int num) {
+        session.update("cafeComment.delete", num);
+    }
 
-	@Override
-	public void insert(CafeCommentDto dto) {
-		session.update("cafeComment.insert", dto);
-	}
+    @Override
+    public void insert(CafeCommentDto dto) {
+        session.update("cafeComment.insert", dto);
+    }
 
-	@Override
-	public int getSequence() {
-		return session.selectOne("cafeComment.getSequence");
-	}
+    @Override
+    public int getSequence() {
+        return session.selectOne("cafeComment.getSequence");
+    }
 
-	@Override
-	public void update(CafeCommentDto dto) {
-		session.update("cafeComment.update", dto);
-	}
+    @Override
+    public void update(CafeCommentDto dto) {
+        session.update("cafeComment.update", dto);
+    }
 
-	@Override
-	public CafeCommentDto getData(int num) {
-		return session.selectOne("cafeComment.getData", num);
-	}
+    @Override
+    public CafeCommentDto getData(int num) {
+        return session.selectOne("cafeComment.getData", num);
+    }
 
-	@Override
-	public int getCount(int ref_group) {
-		return session.selectOne("cafeComment.getCount", ref_group);
-	}
-	
+    @Override
+    public int getCount(int ref_group) {
+        return session.selectOne("cafeComment.getCount", ref_group);
+    }
+    
 }

@@ -8,9 +8,9 @@
 <title>/views/users/info.jsp</title>
 </head>
 <body>
-	<div class="container">
-		<h3>개인정보</h3>
-		<p> 아이디는 <strong>${id }</strong> 입니다. 어쩌구... 저쩌구...</p>
-	</div>
+    <div class="container">
+        <h3>개인정보</h3>
+        <p> 아이디는 <strong>${id }</strong> 입니다. 어쩌구... 저쩌구...</p>
+    </div>
 </body>
 </html>

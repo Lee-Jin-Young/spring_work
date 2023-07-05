@@ -8,13 +8,13 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @ControllerAdvice
 public class ExceptionController {
-	// NotDeleteException type 의 예외가 발생하면 호출되는 메소드 
-	@ExceptionHandler(NotDeleteException.class)
-	public ModelAndView notDelete(NotDeleteException nde) {
-		ModelAndView mView=new ModelAndView();
-		mView.addObject("exception", nde);
-		mView.setViewName("error/info");
-		return mView;
-	}
-	
+    // NotDeleteException type 의 예외가 발생하면 호출되는 메소드 
+    @ExceptionHandler(NotDeleteException.class)
+    public ModelAndView notDelete(NotDeleteException nde) {
+        ModelAndView mView=new ModelAndView();
+        mView.addObject("exception", nde);
+        mView.setViewName("error/info");
+        return mView;
+    }
+    
 }

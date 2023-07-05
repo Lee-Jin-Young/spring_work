@@ -7,9 +7,9 @@
 <title>/guest/update.jsp</title>
 </head>
 <body>
-	<script>
-		alert("${param.num}번 글의 정보를 수정하였습니다.");
-		location.href="${pageContext.request.contextPath}/guest/list"
-	</script>
+    <script>
+        alert("${param.num}번 글의 정보를 수정하였습니다.");
+        location.href="${pageContext.request.contextPath}/guest/list"
+    </script>
 </body>
 </html>

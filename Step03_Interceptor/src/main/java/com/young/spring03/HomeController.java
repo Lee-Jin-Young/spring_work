@@ -10,21 +10,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class HomeController {
-	@RequestMapping("/")
-	public String home(HttpServletRequest request) {
-		List<String> noticeList=new ArrayList<String>();
-		noticeList.add("가나다");
-		noticeList.add("ABC");
-		noticeList.add("123");
+    @RequestMapping("/")
+    public String home(HttpServletRequest request) {
+        List<String> noticeList=new ArrayList<String>();
+        noticeList.add("가나다");
+        noticeList.add("ABC");
+        noticeList.add("123");
 
-		request.setAttribute("noticeList", noticeList);
+        request.setAttribute("noticeList", noticeList);
 
-		return "home";
-	}
-	
-	@RequestMapping("/play")
-	public String play() {
-		// /WEB-INF/views/play.jsp
-		return "play";
-	}
+        return "home";
+    }
+    
+    @RequestMapping("/play")
+    public String play() {
+        // /WEB-INF/views/play.jsp
+        return "play";
+    }
 }

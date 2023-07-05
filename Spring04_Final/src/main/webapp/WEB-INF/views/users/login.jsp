@@ -8,22 +8,22 @@
 <title>/views/users/login.jsp</title>
 </head>
 <body>
-	<div class="container">
-		<h1>알림</h1>
-		<c:choose>
-			<c:when test="${not empty sessionScope.id }">
-				<p>
-					<strong>${sessionScope.id }</strong>님 로그인 되었습니다.
-					<a href="${requestScope.url }">확인</a>
-				</p>
-			</c:when>
-			<c:otherwise>
-				<p>
-					아이디 혹은 비밀 번호가 틀립니다
-					<a href="login_form?url=${requestScope.encodedUrl }">다시 시도</a>
-				</p>
-			</c:otherwise>
-		</c:choose>
-	</div>	
+    <div class="container">
+        <h1>알림</h1>
+        <c:choose>
+            <c:when test="${not empty sessionScope.id }">
+                <p>
+                    <strong>${sessionScope.id }</strong>님 로그인 되었습니다.
+                    <a href="${requestScope.url }">확인</a>
+                </p>
+            </c:when>
+            <c:otherwise>
+                <p>
+                    아이디 혹은 비밀 번호가 틀립니다
+                    <a href="login_form?url=${requestScope.encodedUrl }">다시 시도</a>
+                </p>
+            </c:otherwise>
+        </c:choose>
+    </div>    
 </body>
 </html>

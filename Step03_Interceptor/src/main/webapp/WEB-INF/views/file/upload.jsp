@@ -7,7 +7,7 @@
 <title>/views/file/upload.jsp</title>
 </head>
 <body>
-	<p>파일을 업로드 했습니다.</p>
-	<a href="${pageContext.request.contextPath}/file/insertform">다시 테스트</a>
+    <p>파일을 업로드 했습니다.</p>
+    <a href="${pageContext.request.contextPath}/file/insertform">다시 테스트</a>
 </body>
 </html>

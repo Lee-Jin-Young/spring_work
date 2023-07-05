@@ -17,9 +17,9 @@
       <img src="${pageContext.request.contextPath}/resources/images/0.png"/>
       <h2>공지사항</h2>
       <ul>
-      	<c:forEach var="tmp" items="${requestScope.noticeList}">
-      		<li>${tmp}</li>
-      	</c:forEach>
+          <c:forEach var="tmp" items="${requestScope.noticeList}">
+              <li>${tmp}</li>
+          </c:forEach>
       </ul>
    </div>
 </body>

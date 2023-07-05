@@ -10,27 +10,27 @@ import com.young.spring04.gallery.dto.GalleryDto;
 
 @Repository
 public class GalleryDaoImpl implements GalleryDao {
-	@Autowired
-	private SqlSession session;
-	
-	@Override
-	public List<GalleryDto> getList(GalleryDto dto) {
-		return session.selectList("gallery.getList", dto);
-	}
+    @Autowired
+    private SqlSession session;
+    
+    @Override
+    public List<GalleryDto> getList(GalleryDto dto) {
+        return session.selectList("gallery.getList", dto);
+    }
 
-	@Override
-	public int getCount() {
-		return session.selectOne("gallery.getCount");
-	}
+    @Override
+    public int getCount() {
+        return session.selectOne("gallery.getCount");
+    }
 
-	@Override
-	public void insert(GalleryDto dto) {
-		session.insert("gallery.insert",dto);
-	}
+    @Override
+    public void insert(GalleryDto dto) {
+        session.insert("gallery.insert",dto);
+    }
 
-	@Override
-	public GalleryDto getData(int num) {
-		return session.selectOne("gallery.getData", num);
-	}
+    @Override
+    public GalleryDto getData(int num) {
+        return session.selectOne("gallery.getData", num);
+    }
 
 }

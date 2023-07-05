@@ -72,58 +72,58 @@ public class UsersController {
     // 개인정보 보기 요청 처리
     @RequestMapping("/users/info")
     public ModelAndView info(HttpSession session, ModelAndView mView) {
-    	service.getInfo(session, mView);
-    	mView.setViewName("users/info");
+        service.getInfo(session, mView);
+        mView.setViewName("users/info");
         return mView;
     }
     
     // 비밀번호 수정 폼 요청 처리
     @RequestMapping("/users/pwd_update_form")
     public String pwdUpdateForm() {
-    	return "users/pwd_update_form";
+        return "users/pwd_update_form";
     }
     
     // 비밀번호 수정 요청 처리
     @RequestMapping("/users/pwd_update")
     public ModelAndView pwdUpdate(UsersDto dto, ModelAndView mView, HttpSession session) {
-    	service.updateUserPwd(session, dto, mView);
-    	mView.setViewName("users/pwd_update");
-    	
-    	return mView;
+        service.updateUserPwd(session, dto, mView);
+        mView.setViewName("users/pwd_update");
+        
+        return mView;
     }
     
     // 회원정보 수정 폼 요청 처리
     @RequestMapping("/users/update_form")
-	public ModelAndView updateform(HttpSession session, ModelAndView mView) {
-		service.getInfo(session, mView);
-		mView.setViewName("users/update_form");
-		return mView;
-	}
+    public ModelAndView updateform(HttpSession session, ModelAndView mView) {
+        service.getInfo(session, mView);
+        mView.setViewName("users/update_form");
+        return mView;
+    }
     
   //개인정보 수정 요청 처리
-  	@RequestMapping(method=RequestMethod.POST, value = "/users/update")
-  	public ModelAndView update(UsersDto dto, HttpSession session, ModelAndView mView, HttpServletRequest request) {
-  		service.updateUser(dto, session);
-  		
-  		mView.setViewName("redirect:/users/info");
-  		return mView;
-  	}
+      @RequestMapping(method=RequestMethod.POST, value = "/users/update")
+      public ModelAndView update(UsersDto dto, HttpSession session, ModelAndView mView, HttpServletRequest request) {
+          service.updateUser(dto, session);
+          
+          mView.setViewName("redirect:/users/info");
+          return mView;
+      }
     
     // ajax 프로필 사진 업로드 요청 처리
     @RequestMapping(method = RequestMethod.POST, value = "/users/profile_upload")
     @ResponseBody
     public Map<String, Object> profileUpload(HttpServletRequest request, MultipartFile image) {
-    	return service.saveProfileImage(request, image);
+        return service.saveProfileImage(request, image);
     }
     
     // 회원 탈퇴 요청 처리
     @RequestMapping("/users/delete")
     public ModelAndView delete(HttpSession session, ModelAndView mView) {
-    	service.deleteUser(session, mView);
-    	
-    	session.removeAttribute("id");
-    	
-    	mView.setViewName("home");
-    	return mView;
+        service.deleteUser(session, mView);
+        
+        session.removeAttribute("id");
+        
+        mView.setViewName("home");
+        return mView;
     }
 }

@@ -1,5 +1,6 @@
 package com.young.spring04.gallery.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,47 +17,55 @@ import com.young.spring04.gallery.service.GalleryService;
 
 @Controller
 public class GalleryController {
-	@Autowired
-	private GalleryService service;
-	
-	// 갤러리 리스트 요청 처리
-	@RequestMapping("/gallery/list")
-	public String list(HttpServletRequest request) {
-		service.getList(request);
-		
-		return "gallery/list";
-	}
-	
-	// 업로드 폼 요청 처리
-	@RequestMapping("/gallery/upload_form")
-	public String uploadForm(GalleryDto dto, HttpServletRequest request) {
-		return "gallery/upload_form";
-	}
-	// 업로드 폼2 요청 처리
-	@RequestMapping("/gallery/upload_form_drag")
-	public String uploadFormDrag(GalleryDto dto, HttpServletRequest request) {
-		return "gallery/upload_form_drag";
-	}
-	
-	// ajax 업로드 요청 처리
-	@RequestMapping(method = RequestMethod.POST, value = "/gallery/image_upload")
-	@ResponseBody
-	public Map<String, Object> imageUpload(GalleryDto dto, HttpServletRequest request) {
-		System.out.println("ImageFile :"+dto.getImage());
-		return service.uploadAjaxImage(dto, request);
-	}
-	
-	@RequestMapping("gallery/upload")
-	public String upload(GalleryDto dto, HttpServletRequest request) {
-		service.saveImage(dto, request);
-		return "gallery/upload";
-	}
-	
-	// 자세히 보기 요청 처리
-	@RequestMapping("/gallery/detail")
-	public ModelAndView detail(ModelAndView mView, int num) {
-		service.getDetail(mView, num);
-		mView.setViewName("gallery/detail");
-		return mView;
-	}
+    @Autowired
+    private GalleryService service;
+    
+    // 갤러리 리스트 요청 처리
+    @RequestMapping("/gallery/list")
+    public String list(HttpServletRequest request) {
+        service.getList(request);
+        
+        return "gallery/list";
+    }
+    
+    // 업로드 폼 요청 처리
+    @RequestMapping("/gallery/upload_form")
+    public String uploadForm(GalleryDto dto, HttpServletRequest request) {
+        return "gallery/upload_form";
+    }
+    // 업로드 폼2 요청 처리
+    @RequestMapping("/gallery/upload_form_drag")
+    public String uploadFormDrag(GalleryDto dto, HttpServletRequest request) {
+        return "gallery/upload_form_drag";
+    }
+    // 업로드 폼3 요청 처리
+    @RequestMapping("/gallery/upload_form_ajax")
+    public String uploadFormAjax() {
+        return "gallery/upload_form_ajax";
+    }
+    
+    // ajax 업로드 요청 처리
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.POST, value = "/gallery/ajax_upload")
+    public Map<String, Object> imageUpload(GalleryDto dto, HttpServletRequest request) {
+        service.saveImage(dto, request);
+        
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("isSuccess", true);
+        return map;
+    }
+    
+    @RequestMapping("gallery/upload")
+    public String upload(GalleryDto dto, HttpServletRequest request) {
+        service.saveImage(dto, request);
+        return "gallery/upload";
+    }
+    
+    // 자세히 보기 요청 처리
+    @RequestMapping("/gallery/detail")
+    public ModelAndView detail(ModelAndView mView, int num) {
+        service.getDetail(mView, num);
+        mView.setViewName("gallery/detail");
+        return mView;
+    }
 }

@@ -7,9 +7,9 @@
 <title>/member/update.jsp</title>
 </head>
 <body>
-	<script>
-		alert(${param.num}번 회원의 정보를 수정하였습니다.);
-		location.href="${pageContext.request.contextPath}/member/list"
-	</script>
+    <script>
+        alert(${param.num}번 회원의 정보를 수정하였습니다.);
+        location.href="${pageContext.request.contextPath}/member/list"
+    </script>
 </body>
 </html>

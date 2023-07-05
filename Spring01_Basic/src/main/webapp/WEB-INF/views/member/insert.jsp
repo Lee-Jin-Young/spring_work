@@ -7,12 +7,12 @@
 <title>/views/member/insert.jsp</title>
 </head>
 <body>
-	<div class="container">
-		<h1>알림</h1>
-		<p>
-			회원 정보가 추가되었습니다.
-			<a href="/step01/">인덱스로</a>
-		</p>
-	</div>
+    <div class="container">
+        <h1>알림</h1>
+        <p>
+            회원 정보가 추가되었습니다.
+            <a href="/step01/">인덱스로</a>
+        </p>
+    </div>
 </body>
 </html>
