@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--GuestDaoImpl.java에서 session.method("`namespace`.`id`", `parameter`); -->
+
+<mapper namespace="guest">
+	<!-- insert(GuestDto dto) / session.insert("guest.insert", dto) -->
+	<!-- parameterType에는 전체 경로 표시 -->
+	<insert id="insert"
+		parameterType="guestDto">
+		INSERT INTO board_guest
+		(num, writer, content, pwd, regdate)
+		VALUES(board_guest_seq.NEXTVAL, #{writer}, #{content}, #{pwd}, SYSDATE)
+	</insert>
+
+	<update id="update"
+		parameterType="guestDto">
+		UPDATE board_guest
+		SET writer = #{writer}, content = #{content}
+		WHERE num = #{num} AND pwd = #{pwd}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM board_guest
+		WHERE num = #{num}
+			<if test="pwd != null">
+				AND pwd = #{pwd}
+			</if>
+	</delete>
+
+	<!-- resultType : 결과값을 어떤 타입으로 리턴할지 결정 -->
+	<select id="getData" parameterType="int" resultType="guestDto">
+		SELECT content, writer, pwd, regdate
+		FROM board_guest
+		WHERE num = #{num}
+	</select>
+
+	<!-- getList() / session.selectList("guest.getList") -->
+	<!-- getList는 매개변수가 없기때문에 parameterType이 없음 -->
+	<select id="getList" resultType="guestDto">
+		SELECT num, writer, content, regdate
+		FROM board_guest
+		ORDER BY num DESC
+	</select>
+</mapper>
