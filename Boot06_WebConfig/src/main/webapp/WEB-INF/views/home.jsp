@@ -26,6 +26,10 @@
         --%>
         <img src="${pageContext.request.contextPath}/images/0.png"/>
         <img src="${pageContext.request.contextPath}/images/1.png"/>
+        
+        <%-- 컨트롤러에 이미지 요청 --%>
+        <img src="${pageContext.request.contextPath}/aaa/2.png"/>
+        <img src="${pageContext.request.contextPath}/aaa/3.png"/>
         <ul>
             <li><a href="${pageContext.request.contextPath}/html/hello.html">hello.html으로</a></li>
             <%-- .jsp는 동적자원이므로 static 폴더에 위치 시킬 수 없다. --%>
