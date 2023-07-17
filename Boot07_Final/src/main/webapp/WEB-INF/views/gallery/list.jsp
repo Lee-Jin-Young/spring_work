@@ -60,9 +60,9 @@
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="card mb-3">
                         <a href="${pageContext.request.contextPath}/gallery/detail?num=${tmp.num}">
-                        <div class="img-wrapper">
-                            <img class="card-img-top" src="${pageContext.request.contextPath}${tmp.imagePath}" />
-                        </div>
+	                        <div class="img-wrapper">
+	                            <img class="card-img-top" src="${pageContext.request.contextPath}${tmp.imagePath}" />
+	                        </div>
                         </a>
                         <div class="card-body">
                             <p class="card-text">${tmp.caption}</p>

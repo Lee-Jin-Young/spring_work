@@ -1,13 +1,15 @@
-package com.example.boot07.gallery.service;
+  package com.example.boot07.gallery.service;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +23,9 @@ public class GalleryServiceImpl implements GalleryService {
     @Autowired
     private GalleryDao dao;
 
+    @Value("${file.location}")
+    private String fileLocation;
+    
     @Override
     public void getList(HttpServletRequest request) {
         final int PAGE_ROW_COUNT = 8;
@@ -67,26 +72,24 @@ public class GalleryServiceImpl implements GalleryService {
         String orgFileName=image.getOriginalFilename();
         long fileSize = image.getSize();
         
-        String realPath=request.getServletContext().getRealPath("/resources/upload");
-        String filePath = realPath + File.separator;
-        
-        String saveFileName = System.currentTimeMillis() + orgFileName;
-        
-        // upload 폴더가 없을 경우
+        String saveFileName = UUID.randomUUID().toString()+orgFileName;
+        String filePath = fileLocation + File.separator+saveFileName;
+       
         File upload=new File(filePath);
+        
         if(!upload.exists()) {
            upload.mkdir();
         }
         
         try {
-           image.transferTo(new File(filePath+saveFileName));
+           image.transferTo(new File(filePath));
         } catch(Exception e) {
            e.printStackTrace();
         }
         
         String id = (String)request.getSession().getAttribute("id");
         dto.setWriter(id);
-        dto.setImagePath("/resources/upload/"+saveFileName);
+        dto.setImagePath("/gallery/images/"+saveFileName);
         
         dao.insert(dto);
     }
@@ -99,10 +102,8 @@ public class GalleryServiceImpl implements GalleryService {
         String orgFileName=image.getOriginalFilename();
         long fileSize = image.getSize();
         
-        String realPath=request.getServletContext().getRealPath("/resources/upload");
-        String filePath = realPath + File.separator;
-        
-        String saveFileName = System.currentTimeMillis() + orgFileName;
+        String saveFileName = UUID.randomUUID().toString()+orgFileName;
+        String filePath = fileLocation + File.separator+saveFileName;
         
         // upload 폴더가 없을 경우
         File upload=new File(filePath);
@@ -117,7 +118,7 @@ public class GalleryServiceImpl implements GalleryService {
         }
         
         Map<String, Object> map=new HashMap<String, Object>();
-        map.put("imagePath", "/resources/upload/"+saveFileName);
+        map.put("imagePath", "C:\\Users\\acorn\\acorn202304\\upload\\"+saveFileName);
         
         return map;
     }

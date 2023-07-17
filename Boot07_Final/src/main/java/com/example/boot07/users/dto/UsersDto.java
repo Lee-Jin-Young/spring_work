@@ -2,6 +2,12 @@ package com.example.boot07.users.dto;
 
 import org.apache.ibatis.type.Alias;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
 @Alias("usersDto")
 public class UsersDto {
 	private String id;
@@ -11,7 +17,9 @@ public class UsersDto {
 	private String regdate;
 	private String newPwd;
 	
-	public UsersDto() {}
+	public UsersDto() {
+		
+	}
 
 	public UsersDto(String id, String pwd, String email, String profile, String regdate, String newPwd) {
 		super();

@@ -1,8 +1,13 @@
 package com.example.boot07.file.controller;
 
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +23,9 @@ public class FileController {
     
     @GetMapping("/file/list")
     public String list(HttpServletRequest request) {
-
         service.getList(request);
-
         return "file/list";
-    }
+    } 
 
     @GetMapping("/file/upload_form")
     public String uploadForm() {
@@ -37,10 +40,10 @@ public class FileController {
         return "file/upload";
     }
 
+    // 다운로드할 파일의 번호가 요청파라미터로 전달
     @GetMapping("/file/download")
-    public String download(int num, Model model) {
-        service.getFileData(num, model);
-        return "fileDownView";
+    public ResponseEntity<InputStreamResource> download(int num) throws UnsupportedEncodingException, FileNotFoundException {
+        return service.getFileDate(num);
     }
 
     @GetMapping("/file/delete")

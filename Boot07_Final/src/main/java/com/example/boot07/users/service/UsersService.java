@@ -13,7 +13,6 @@ import com.example.boot07.users.dto.UsersDto;
 public interface UsersService {
 	public void addUser(UsersDto dto);
 	public void loginProcess(UsersDto dto, HttpSession session);
-	
 	public void getInfo(HttpSession session, UsersDto dto, Model model);
 	//TODO getInfo(HttpSession session, Model model)
 	public void updateUserPwd(HttpSession session, UsersDto dto, Model model);

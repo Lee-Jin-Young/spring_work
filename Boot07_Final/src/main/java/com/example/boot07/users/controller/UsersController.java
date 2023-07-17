@@ -1,15 +1,23 @@
 package com.example.boot07.users.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +27,11 @@ import com.example.boot07.users.service.UsersService;
 
 @Controller
 public class UsersController {
-	@Autowired private UsersService service;
+	@Autowired 
+	private UsersService service;
+	
+	@Value("${file.location}")
+	private String fileLocation;
 	
 	// 회원가입 폼 요청 처리
 	@GetMapping("/users/signup_form")
@@ -99,6 +111,20 @@ public class UsersController {
 	@PostMapping("/users/profile_upload")
 	public Map<String, Object> profileUpload(HttpServletRequest request, MultipartFile image) {
 		return service.saveProfileImage(request, image);
+	}
+	
+	@GetMapping(value = "/users/images/{imageName}", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE })
+	@ResponseBody
+	public byte[] getImage(@PathVariable("imageName") String imageName) throws IOException {
+		// imageName 에는 응답해줄 이미지의 이름이 들어 있다.
+
+		// 읽어들일 파일의 경로
+		// C:/folder/imageName.png 형식의 경로
+		String absolutePath = fileLocation + File.separator + imageName;
+		// 파일에서 읽어들일 InputStream
+		InputStream is = new FileInputStream(absolutePath);
+		// fileLocation 필드에는 파일이 저장되어 있는 서버의 파일 시스템상에서의 위치가 들어 있다.
+		return IOUtils.toByteArray(is);
 	}
 	
 	// 탈퇴 요청 처리

@@ -3,24 +3,28 @@ package com.example.boot07.users.service;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.example.boot07.users.dao.UsersDao;
 import com.example.boot07.users.dto.UsersDto;
 
 @Service
 public class UsersServiceImpl implements UsersService {
-	@Autowired UsersDao dao;
+	@Autowired
+	private UsersDao dao;
+	@Value("${file.location}")
+	private String fileLocation;
 
 	// 회원가입
     @Override
@@ -53,7 +57,7 @@ public class UsersServiceImpl implements UsersService {
             session.setAttribute("id", resultDto.getId());
         }
     }
-
+    
     // 회원 정보 열람
     @Override
     public void getInfo(HttpSession session, UsersDto dto, Model model) {
@@ -90,15 +94,9 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public Map<String, Object> saveProfileImage(HttpServletRequest request, MultipartFile mFile) {
         String orgFileName=mFile.getOriginalFilename();
-        String saveFileName=System.currentTimeMillis()+orgFileName;
+        String saveFileName=UUID.randomUUID().toString()+orgFileName;
         
-        String realPath=request.getServletContext().getRealPath("/resources/upload");
-
-        // upload 폴더가 없을 경우
-        File upload=new File(realPath);
-        if(!upload.exists()) {
-           upload.mkdir();
-        }
+        String realPath=fileLocation;
         
         try {
            String savePath=realPath+File.separator+saveFileName;
@@ -108,7 +106,7 @@ public class UsersServiceImpl implements UsersService {
         }
         
         Map<String, Object> map=new HashMap<String, Object>();
-        map.put("imagePath", "/resources/upload/"+saveFileName);
+        map.put("imagePath", "/users/images/"+saveFileName);
         
         return map;
     }

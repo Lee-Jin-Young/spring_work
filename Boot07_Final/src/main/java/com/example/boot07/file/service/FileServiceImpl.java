@@ -1,12 +1,21 @@
 package com.example.boot07.file.service;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +28,10 @@ import com.example.boot07.file.dto.FileDto;
 public class FileServiceImpl implements FileService {
     @Autowired
     private FileDao dao;
+    
+    // 다운로드 | 업로드 파일이 저장된 위치 얻어내기
+    @Value("${file.location}")
+    private String fileLocation;
 
     @Override
     public void getList(HttpServletRequest request) {
@@ -94,19 +107,17 @@ public class FileServiceImpl implements FileService {
         String orgFileName = myFile.getOriginalFilename();
         long fileSize = myFile.getSize();
 
-        String realPath = request.getServletContext().getRealPath("/resources/upload");
-        String filePath = realPath + File.separator;
+        String saveFileName = UUID.randomUUID().toString();
+        String filePath = fileLocation + File.separator+saveFileName;
         File upload = new File(filePath);
 
         if (!upload.exists()) {
             upload.mkdir();
         }
 
-        String saveFileName = System.currentTimeMillis() + orgFileName;
-
         try {
-            myFile.transferTo(new File(filePath + saveFileName));
-            System.out.println(filePath + saveFileName);
+            myFile.transferTo(new File(filePath));
+            System.out.println("FileService filePath : "+filePath);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -121,9 +132,26 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void getFileData(int num, Model model) {
-        FileDto dto = dao.getData(num);
-        model.addAttribute("dto", dto);
+    public ResponseEntity<InputStreamResource> getFileDate(int num) throws UnsupportedEncodingException, FileNotFoundException {
+    	FileDto dto = dao.getData(num);
+    	
+    	String encodedName = URLEncoder.encode(dto.getOrgFileName(),"utf-8");
+    	encodedName = encodedName.replaceAll("\\+"," ");
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream"); 
+		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename="+encodedName);
+		headers.setContentLength(dto.getFileSize());
+
+		String filePath = fileLocation + File.separator + dto.getSaveFileName();
+		InputStream is=new FileInputStream(filePath);
+		InputStreamResource isr=new InputStreamResource(is);
+
+		//ResponseEntity 객체의 참조값 얻어내기 
+		ResponseEntity<InputStreamResource> resEn=ResponseEntity.ok()
+			.headers(headers)
+			.body(isr);
+
+		return resEn;
     }
 
     @Override
@@ -143,5 +171,4 @@ public class FileServiceImpl implements FileService {
         // DB에서 정보 삭제
         dao.delete(num);
     }
-
 }
