@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.boot07.cafe.dao.CafeDao;
 import com.example.boot07.cafe.dto.CafeDto;
+import com.example.boot07.gallery.dao.GalleryDao;
+import com.example.boot07.gallery.dto.GalleryDto;
 
 @RestController
 public class AndroidController {   
@@ -55,6 +57,19 @@ public class AndroidController {
 	   List<CafeDto> list = dao.getList(dto);
 	   
 	   return list;
+   }
+   
+   
+   @Autowired
+   private GalleryDao galleryDao;
+   
+   @GetMapping("/android/gallery/list")
+   public List<GalleryDto> galleryList() {
+	   GalleryDto dto = new GalleryDto();
+	   dto.setStartRowNum(1);
+	   dto.setEndRowNum(20);
+	   
+	   return galleryDao.getList(dto);
    }
 }
 
